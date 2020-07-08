@@ -1,0 +1,201 @@
+INPUT EVENTS:
+  ENTER
+  EXIT
+  GO_EVENT
+
+------------------------------------------
+
+this.hsm.inputHsm : 
+{
+	"states": [
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [],
+			"isInitialState": false,
+			"id": "n0",
+			"label": "ROOT",
+			"parentId": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": null,
+					"nextInputStateId": "n0::n2",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n0",
+			"parentId": "n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1,
+					"triggers": [
+						"GO_EVENT"
+					],
+					"guard": "true",
+					"action": "var1 = var1;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"GO_EVENT"
+					],
+					"guard": null,
+					"action": null,
+					"nextInputStateId": "n0::n2",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n2",
+			"parentId": "n0",
+			"label": "C",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": "true",
+					"action": "out = 1;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1,
+					"triggers": [
+						"entry"
+					],
+					"guard": "false",
+					"action": "out = 99;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n2::n0",
+			"parentId": "n0::n2",
+			"label": "C1",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 2,
+					"triggers": [],
+					"guard": "var1 > var2",
+					"action": null,
+					"nextInputStateId": "n0::n2::n0",
+					"stopsPropagation": false
+				},
+				{
+					"order": 1,
+					"triggers": [],
+					"guard": "var1 == 1",
+					"action": null,
+					"nextInputStateId": "n0::n2::n2",
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"else"
+					],
+					"guard": null,
+					"action": null,
+					"nextInputStateId": "n0::n2::n3",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n2::n1",
+			"parentId": "n0::n2",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "out = 2;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "out = 2;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n2::n2",
+			"parentId": "n0::n2",
+			"label": "C2",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "out = 3;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n2::n3",
+			"parentId": "n0::n2",
+			"label": "C3",
+			"orthogonal_order": null
+		}
+	],
+	"varsStructInnerText": "\r\n  int var1;\r\n  int var2;\r\n  int out;\r\n",
+	"expansionDefinitions": "\r\n  var1 ====> sm->vars.$$\r\n  var2 ====> sm->vars.$$\r\n  out  ====> sm->vars.$$\r\n",
+	"executeBeforeCode": "",
+	"executeAfterCode": "\r\n\r\n",
+	"c_file_top": "\r\n//~anything you want at top of .c file like additional includes\r\n",
+	"h_file_top": "\r\n  //~anything you want at top of .h file like additional includes\r\n",
+	"cFunctions": "\r\n//~this section is expanded based on expansions\r\n",
+	"cFunctionsNoExp": "",
+	"cPrototypes": "\r\n\r\n",
+	"cPrototypesNoExp": "",
+	"inputValues": "\r\n\r\n",
+	"outputValues": "\r\n  \r\n",
+	"outputEvents": "\r\n",
+	"imports": "",
+	"output_filename": "",
+	"name": "spec_OrderElse1",
+	"diagramSourceFilePath": "../examples/specifications/spec_OrderElse1.graphml"
+}

@@ -1,0 +1,37 @@
+@startuml
+
+skinparam state {
+ FontName<<class_ortho>>    Impact
+ BorderColor<<class_ortho>> #AA0000
+ BorderColor Black
+}
+
+note top of ROOT
+Full state path to current diagram being exported:
+ROOT
+end note
+
+state "ROOT" as ROOT {
+  [*] --> S 
+  state "S" as S {
+    [*] --> S1  :  / tToS1();
+    state "S1" as S1 {
+      [*] --> S11  :  / tToS11();
+      state "S11" as S11 {
+        S11  : EXIT / xS11()
+      }
+      S11 --> T111  : GO_EVENT / t1();
+      S1  : EXIT / xS1();
+    }
+    state "T1" as T1 {
+      state "T11" as T11 {
+        state "T111" as T111 {
+          T111  : ENTER / eT111();
+        }
+        T11  : ENTER / eT11();
+      }
+      T1  : ENTER / eT1();
+    }
+  }
+}
+@enduml

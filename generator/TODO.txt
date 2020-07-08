@@ -1,0 +1,363 @@
+THIS FILE IS OUTDATED...
+
+
+How to add extensions to parser for custom parsing of things like "Screen Views"
+
+
+
+event handlers should now check for 
+Hsm_is_transition_requested
+
+Need typedefing for hsm to understand how to printf something...
+  or just let it specify printf symbol
+
+Would be useful to have HSM generate code to detect changes in inputs.
+
+Generate dummy var if HSM doesn't have one
+
+Would be useful to have a macro expansion for name of state
+  could save you from having to type this stuff all the time:
+  STARTING_UP
+  enter / traceState(STARTING_UP)
+
+
+
+
+InputStates now need to keep track of:
+  1) expansions
+  2) temp_vars
+
+Make parsing easier
+  create new DOM by extracting only the nodes and edges of interest
+  don't nuke the original tree, just create a new one.
+
+Manual history/resume
+  keep record of originating state during transitions to allow for manual history keeping.
+  Also allow method to force a transition to state method.
+
+Orthogonal states
+  require numbering for execution order
+  how to communicate between regions?
+    internal events?
+    how listen to output events?
+      ex: but_BasicSm fires PRETAP and but_TapSm listens to it.
+    [CHOICE!] for now, use all outputEvents
+      dependent regions can use guards like [sm->output_events.EVENT_NAME]
+      could wrap in macro like: whenEventOutput(EVENT_NAME)
+      can name "inner" or private events with prefixed underscore.
+
+combining adjacent guard statements together automatically
+  ex: "EVENT [guard1][guard2] / action" becomes
+      "EVENT [(guard1)&&(guard2)] / action"
+  makes life a bit easier for macros and afterMs(x) which does the same thing already.
+
+pop nested guards
+  ex: "EVENT [guard1 || [guard2]] / action" becomes
+      "EVENT [guard1 || (guard2)] / action"
+  would help with helper macros being able to be used freely like:
+  ex: "EVENT [guard1 || afterMs(100)] / action" first becomes
+      "EVENT [guard1 || [time_in_state >= 100]] / action" then
+      "EVENT [guard1 || (time_in_state >= 100)] / action" then
+  may be difficult to safely find and also allow for array syntax like "(*ptr_to_array)[ENUM_VALUE]"
+  instead, implement $createGuard(...) directive which expands to "<created_guard_blahblah>...</created_guard_blahblah>"
+    then at a certain stage, can detect
+
+allow multiline macros with syntax ===={>
+}
+
+make output_event a global macro
+    output_event(x)  ====>  sm->output_events.{{x}} = true;
+
+make expansions relative
+  inherited
+
+temp vars (tvars) for states and substates
+  syntax = ^tempvars : { }
+
+struct members:
+  temp_vars (tvars)     //allocated in union
+  private_vars (pvars)
+  vars
+  input_values (iv)
+  output_values (ov)
+
+auto expand struct variable names
+  saves you from having to manually create them all like:   debounced_at_ms  ====>  sm->pvars.debounced_at_ms
+  expansion order:
+    user expansions from child to root
+    expand short hands from briefest to longest (make this actually another file for global expansions to allow user control)
+      This step is important to help resolve any naming conflicts like iv.ready and ov.ready
+      (^|[^.>]) \b iv \b    to    $1input_values
+      (^|[^.>]) \b input_values \b    to    $1sm->input_values
+    do not auto expand struct variable names if multiple conflicting names at same level.
+      warn instead. user will have to qualify the variable name more like tvars.count
+    allow accessing temp_vars that belong to parent without having to specify relative path upwards super.super.super.myvar
+      how to determine actual path?
+      ex: A contains AA which contains AAA which contains AAAA. AAA declares a temp_var uint8_t presses_left;
+          when AAA or AAAA access it, the path is sm->temp_vars.A.AA.AAA.presses_left;
+
+temp_vars should be allowed to be declared with initial value like: uint8_t presses_left = 5;
+  these values are then initialized during state entry saving developer time.
+  These initializations happen before user entry code is run incase they also set the value upon entry.
+    We want user code to take precedence.
+
+
+
+yed file parse macro expand for event handlers
+  needs to be able to detect event vs
+
+
+
+someday: allow regex macros for clearer reading like: after 100 seconds
+  macro may be something like:
+    /\bafter\h+(\w+)\h+(?:s|sec|second|seconds)\b/i ====> $createGuard(time_in_state >= ({{$1}})*1000)            //capture as \w to allow for enums and other macro names
+    /\bafter\h+(\w+)\h+(?:ms|msec|millisecond|milliseconds)\b/i ====> $createGuard(time_in_state >= ({{$1}}))     //capture as \w to allow for enums and other macro names
+  also include custom \h for horizontal white space
+
+
+Naming convenience
+  Use ... to mean parent name
+  Allows you to write ..._PREVIEW
+  Instead of MM_HH_SMOOTH_RIG_PREVIEW
+  Very handy for unique names, quick editing/renaming.
+
+Nested Node improvement
+  Maybe change nested node to use array indexes instead of pointers.
+  The big advantage is having the layout entirely in flash.
+  Could also include length argument to help avoid any out of bounds issues.
+  Makes sense to do this at time of compile.
+
+
+afterSec( )
+terminate pseudo states
+  onFinish - new directive used for terminate states
+
+
+Change default event model from web/js default bubble, to inheritance based default consume.
+  allow preBubbleEvent and postBubbleEvent - way to bubble an event up to parent
+    - "bubble();" allowed at start and end of action. No where else for now (would require stack calling).
+    - want them to be annotations so that they can become part of the event handler struct.
+    - this helps limit stack usage as the framework can tail chain everything.
+  final - prevent child states from overriding event handler
+  ANY_BUT(event1, event2) - needed because of final and required.
+  ??? required - allow child to handle event as long as it also bubbles the event.
+    - mainly useful for "do" event. Maybe "do" events should just bubble by default.
+
+maybe allow reserving data members and events to specific states.
+
+maybe Allow multiple entry and exit points for a submachine.
+
+
+$parentAlias label node. Everything inside this node will be transferred to actual parent node. Useful for referencing parent node events and stuff when currently inside its drawing.
+
+allow nodes to have attributes
+  essentially just a value set on enter and cleared on exit
+  like: entry / { menu_position = IN_MIDDLE; }
+  like: entry / EDIT_STARTED( );
+        exit / EDIT_STOPPED( );
+
+Orthogonal states & reuse
+  Allow auto including a proxy state base on event ID names.
+
+
+
+Event handlers should have a way to get event so that they can proxy events to other statemachines.
+  -> maybe part of the hsm_t struct so that we don't need to change method call stuff.
+
+generated guard and action functions should be static with simpler names.
+
+
+
+finish import
+  the idea is to allow specifying a bunch of common generator directives in another file to "import" in
+
+Warn if any arrows aren't terminating on a node.
+
+
+
+Event hierarchy
+
+
+TODOLOW: allow state machine names to be relatively unique instead of globally unique
+
+TODOLOW: maybe don't generate dispatch event if no custom events defined.
+
+TODOLOW: create local expansions that are only present within current node and children of that node.
+  $alias keyword to expansion     //quick version. white space around expansion is trimmed.
+  $alias {keyword} to {expansion} //useful when expansion contains trailing white space or quotes like: $alias {smName} to {"My State machine" }
+  $alias "sm" to "statemachine"   //useful when expansion contains trailing white space or mismatched } like: $alias "endPart" to " myAction(); }"
+  $ldef sm as statemachine
+  $ldef sm to statemachine
+
+
+May need more ways of the diagram getting generated function/struct names
+$genPrefix(my_func) { }
+  BBH_my_func
+
+//TODO reuse guard or actions where possible instead of always redefining them
+  //Reasonable way of detecting same guard/actions:
+    hide comment and string innards
+    remove comments
+    remove all white space
+    would ideally remove redundant parenthesis and stuff like that, but not now
+    then hash or use for comparison
+
+//TODOLOW: allow states to have variables that persist entry/exit, as well as temporary variables (stored with time_in_state)
+
+//maybe someday: auto generate hierarchical mapping at compile time.
+
+//untagged root vars, node-tagged vars, temp node vars
+
+typedef union my_statemachine__tvars_t
+{
+  struct
+  {
+    uint32_t count;
+  } root;
+
+  //temporary vars
+  union {
+
+    //STATE A
+    struct
+    {
+      uint32_t time_in_state;
+    } STATE_A;
+
+    //STATE_BC
+    struct
+    {
+      uint32_t time_in_state;
+
+      //for subclasses
+      union
+      {
+        //STATE_B
+        struct
+        {
+          uint32_t time_in_state;
+        } STATE_B;
+
+        //STATE_C
+        struct
+        {
+          uint32_t time_in_state;
+        } STATE_C;
+
+      }; //end of STATE_BC subclasses union
+    } STATE_BC;
+  } temporary;
+
+} my_statemachine__tvars_t;
+
+
+
+Maybe generate only nonzero input/output values
+  #define MIN(a,b) ((a)<(b)?(a):(b))
+
+  static uint8_t min(uint8_t a, uint8_t b) {
+    if (a < b)
+    {
+      return a;
+    }
+    return b;
+  }
+
+  bool BBH__input_events_to_string(char * buffer, uint8_t max_size, uint8_t offset)
+  {
+    uint8_t available_length = MIN(0, max_size - offset);
+    snprintf(buffer + offset, available_length, "");
+  }
+
+
+
+COMPLETED
+======================
+  Move Pseudo Initial states to directly after their parents
+  Add in state machine instance name or maybe id for tracing.
+
+  Make inputs, output_values, and output_events independent sections that are parsed and understood.
+    this allows generating code to print out trace information about each of them like:
+      ex: input 'button_pressed' = 1
+      ex: non-zero output_values: is_pressed=1, button_id=22
+      ex: output events: PRESSED, PRE_TAP
+
+
+
+
+
+
+
+
+BRAIN DUMP
+====================================
+
+Notation for cancelling event propagation. Useful for proxy.
+
+Activated main menu will proxy events to active sub menu item.
+
+Essentially, the state that does the proxying gets events first then decides what to do with them.
+Big global events like lost communication or powering down should send pre notice events.
+When Activated sub menu recieves the notice, it passes the event on and then starts a timer. The external state machine must return by then or be force shut down.
+
+
+Orrrrr, we could just use an include external HSM directive. It would be a full copy paste. No reuse or anything like that for now. No root defines allowed for now either.
+Upon entry, it should transition to other sub HSM based on index.
+If we do this then we need to also fire trickle down events so that we can safely handle large critical events with less testing. Need stop for trickle down event as well.
+
+========================================
+
+
+
+
+
+
+
+Documentation
+
+  temporal_vars AKA temp_vars AKA tvars
+    - these are variables that are only valid within a state and its children
+  
+    typedef union my_statemachine__tvars_t
+    {
+      struct //root
+      {
+        uint32_t count;
+      } root;
+
+      //A or BC
+      union
+      {
+        //STATE A
+        struct
+        {
+          uint32_t time_in_state;
+        } STATE_A;
+
+        //STATE_BC
+        struct
+        {
+          uint32_t time_in_state;
+
+          //B or C
+          union
+          {
+            //STATE_B
+            struct
+            {
+              uint32_t time_in_state;
+            } STATE_B;
+
+            //STATE_C
+            struct
+            {
+              uint32_t time_in_state;
+            } STATE_C;
+
+          }; //end of STATE_BC subclasses union
+        } STATE_BC;
+      } temporary;
+
+    } my_statemachine__tvars_t;
+
+    

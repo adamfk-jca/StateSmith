@@ -1,0 +1,87 @@
+
+############################################################
+## IAR C
+############################################################
+
+## diff
+*.orig
+
+## Build results
+obj/
+Output/
+
+
+## Build results
+[Oo]bject/
+[Dd]ebug/
+*.obj
+*.pbi
+
+
+CMakeFiles/
+Test.dir/
+Win32/
+
+*.users
+*.filters
+*.suo
+*.sdf
+*.opensdf
+
+
+## IAR 
+settings/
+*.dep
+
+## Visual studio
+*.VC.db
+*.obj
+*.pdb
+*.user
+*.userprefs
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]humbs.db
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+*.resharper
+
+# For projects upgraded from VS2010
+[Bb]ackup/
+_UpgradeReport_Files/
+UpgradeLog.*
+
+*.opensdf
+*.sdf
+ipch/
+x64/
+
+Object/
+settings/
+*.dep
+obj/
+bin/
+.vs/
+
+*.opendb

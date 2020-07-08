@@ -1,0 +1,386 @@
+INPUT EVENTS:
+  DO
+  ENTER
+  EXIT
+
+------------------------------------------
+
+this.hsm.inputHsm : 
+{
+	"states": [
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [],
+			"isInitialState": false,
+			"id": "n0",
+			"label": "ROOT",
+			"parentId": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [],
+			"isInitialState": false,
+			"id": "n0::n0",
+			"parentId": "n0",
+			"label": "REPEAT",
+			"orthogonal_order": 1000000
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "is_held",
+					"action": null,
+					"nextInputStateId": "n0::n0::n2",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n0",
+			"parentId": "n0::n0",
+			"label": "NOT_HELD",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": null,
+					"nextInputStateId": "n0::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n0::n1",
+			"parentId": "n0::n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "is_not_pressed",
+					"action": null,
+					"nextInputStateId": "n0::n0::n0",
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "(time_in_state >= repeat_delay )",
+					"action": "output_event( HELD_REPEAT )",
+					"nextInputStateId": "n0::n0::n2",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n2",
+			"parentId": "n0::n0",
+			"label": "BEING_HELD",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [],
+			"isInitialState": false,
+			"id": "n0::n1",
+			"parentId": "n0",
+			"label": "BASIC",
+			"orthogonal_order": 1
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"enter"
+					],
+					"guard": null,
+					"action": "debounced_at_ms = current_time_ms + 100",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"enter"
+					],
+					"guard": null,
+					"action": "time_held = 0",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "input == 1 && is_debounced( )",
+					"action": null,
+					"nextInputStateId": "n0::n1::n2::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n1::n0",
+			"parentId": "n0::n1",
+			"label": "NOT_PRESSED",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": null,
+					"nextInputStateId": "n0::n1::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n1::n1",
+			"parentId": "n0::n1",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"enter"
+					],
+					"guard": null,
+					"action": "output_event( PRESSED );",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"enter"
+					],
+					"guard": null,
+					"action": "is_pressed = true;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "output_event( RELEASED );",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "is_pressed = false;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "input == 0 && is_debounced( )",
+					"action": null,
+					"nextInputStateId": "n0::n1::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n1::n2",
+			"parentId": "n0::n1",
+			"label": "PRESSED",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "debounced_at_ms = current_time_ms + 100",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "(time_in_state >= 500)",
+					"action": null,
+					"nextInputStateId": "n0::n1::n2::n1",
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "input == 0 && is_debounced( )",
+					"action": "output_event(PRETAP)",
+					"nextInputStateId": "n0::n1::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n1::n2::n0",
+			"parentId": "n0::n1::n2",
+			"label": "INITIAL_PRESS",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"enter"
+					],
+					"guard": null,
+					"action": "output_event( HELD );",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"enter"
+					],
+					"guard": null,
+					"action": "is_held = true;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"do"
+					],
+					"guard": null,
+					"action": "time_held = time_in_state",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "is_held = false;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "time_held = 0;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n1::n2::n1",
+			"parentId": "n0::n1::n2",
+			"label": "HELD",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "output_event( HELD_LONG );",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "is_held_long = true;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "is_held_long = false;",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n1::n2::n1::n0",
+			"parentId": "n0::n1::n2::n1",
+			"label": "HELD_LONG",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "(time_in_state >= 500)",
+					"action": null,
+					"nextInputStateId": "n0::n1::n2::n1::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n1::n2::n1::n1",
+			"parentId": "n0::n1::n2::n1",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		}
+	],
+	"varsStructInnerText": "\r\n  uint32_t debounced_at_ms;\r\n",
+	"expansionDefinitions": "\r\n  input            ====>  sm->input_values.input\r\n  repeat_delay     ====>  sm->input_values.repeat_delay_ms\r\n  \r\n  is_pressed       ====>  sm->output_values.$$\r\n  is_held          ====>  sm->output_values.$$\r\n  is_held_long     ====>  sm->output_values.$$\r\n  is_not_pressed   ====>  sm->output_values.$$\r\n  time_held        ====>  sm->output_values.time_held\r\n  \r\n  current_time_ms  ====>  current_time\r\n  debounced_at_ms  ====>  sm->vars.debounced_at_ms\r\n  is_debounced( )  ====>  (current_time_ms >= debounced_at_ms)\r\n  output_event(x)  ====>  sm->output_events.{{x}} = true;\r\n  _ICSIO(x,y)      ====>  hsm__is_current_state_instance_of({{x}}, {{y}})\r\n  isCurrentStateOf(parent_state)  ====>  _ICSIO(hsm, $stateNameToEnumName( {{parent_state}} ) ) \r\n",
+	"executeBeforeCode": "",
+	"executeAfterCode": "\r\n  //~this section is expanded based on expansions above then run after every iteration\r\n  sm->output_values.is_not_pressed = !sm->output_values.is_pressed;\r\n",
+	"c_file_top": "\r\n//anything you want at top of .c file like additional includes\r\n",
+	"h_file_top": "\r\n//anything you want at top of .h file like additional includes\r\n",
+	"cFunctions": "\r\n//~this section is expanded based on expansions\r\n",
+	"cFunctionsNoExp": "",
+	"cPrototypes": "\r\n\r\n",
+	"cPrototypesNoExp": "",
+	"inputValues": "\r\n  bool input;\r\n  uint16_t repeat_delay_ms;\r\n",
+	"outputValues": "\r\n  bool is_not_pressed : 1;\r\n  bool is_pressed     : 1;\r\n  bool is_held        : 1;\r\n  bool is_held_long   : 1;\r\n  uint32_t time_held;\r\n",
+	"outputEvents": "\r\n  bool RELEASED    : 1;\r\n  bool PRESSED     : 1;\r\n  bool HELD        : 1;\r\n  bool HELD_LONG   : 1;\r\n  bool PRETAP      : 1;\r\n  bool HELD_REPEAT : 1;\r\n",
+	"imports": "\r\n\r\n",
+	"output_filename": "ButSm",
+	"name": "ExampleSm",
+	"prefix": "ButSm",
+	"diagramSourceFilePath": "../examples/1/ExampleSm.graphml"
+}

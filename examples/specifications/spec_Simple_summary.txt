@@ -1,0 +1,210 @@
+INPUT EVENTS:
+  ENTER
+  EXIT
+  GO_EVENT
+
+------------------------------------------
+
+this.hsm.inputHsm : 
+{
+	"states": [
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [],
+			"isInitialState": false,
+			"id": "n0",
+			"label": "ROOT",
+			"parentId": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [],
+			"isInitialState": false,
+			"id": "n0::n0",
+			"parentId": "n0",
+			"label": "S",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "xS1();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n0",
+			"parentId": "n0::n0",
+			"label": "S1",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"exit"
+					],
+					"guard": null,
+					"action": "xS11()",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"GO_EVENT"
+					],
+					"guard": null,
+					"action": "t1();",
+					"nextInputStateId": "n0::n0::n1::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n0::n0",
+			"parentId": "n0::n0::n0",
+			"label": "S11",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": "tToS11();",
+					"nextInputStateId": "n0::n0::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n0::n0::n1",
+			"parentId": "n0::n0::n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "eT1();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n1",
+			"parentId": "n0::n0",
+			"label": "T1",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "eT11();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n1::n0",
+			"parentId": "n0::n0::n1",
+			"label": "T11",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"entry"
+					],
+					"guard": null,
+					"action": "eT111();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n1::n0::n0",
+			"parentId": "n0::n0::n1::n0",
+			"label": "T111",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": "tToS1();",
+					"nextInputStateId": "n0::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n0::n2",
+			"parentId": "n0::n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": null,
+					"nextInputStateId": "n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n1",
+			"parentId": "n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		}
+	],
+	"varsStructInnerText": "\r\n  bool dummy_var; //this is to avoid empty struct compile failure. TODO STATE-81\r\n",
+	"expansionDefinitions": "\r\n  xS1    ====>   ${smStructName}_$$\r\n  xS11   ====>   ${smStructName}_$$\r\n  t1     ====>   ${smStructName}_$$\r\n  tToS1  ====>   ${smStructName}_$$\r\n  tToS11 ====>   ${smStructName}_$$\r\n  eT1    ====>   ${smStructName}_$$\r\n  eT11   ====>   ${smStructName}_$$\r\n  eT111  ====>   ${smStructName}_$$\r\n",
+	"executeBeforeCode": "",
+	"executeAfterCode": "\r\n\r\n",
+	"c_file_top": "\r\n//~anything you want at top of .c file like additional includes\r\n",
+	"h_file_top": "\r\n  //~anything you want at top of .h file like additional includes\r\n  void ${smStructName}_xS1(void);\r\n  void ${smStructName}_xS11(void);\r\n  void ${smStructName}_tToS1(void);\r\n  void ${smStructName}_tToS11(void);\r\n  void ${smStructName}_t1(void);\r\n  void ${smStructName}_eT1(void);\r\n  void ${smStructName}_eT11(void);\r\n  void ${smStructName}_eT111(void);\r\n",
+	"cFunctions": "\r\n//~this section is expanded based on expansions\r\n",
+	"cFunctionsNoExp": "",
+	"cPrototypes": "\r\n\r\n",
+	"cPrototypesNoExp": "",
+	"inputValues": "\r\n\r\n",
+	"outputValues": "\r\n  \r\n",
+	"outputEvents": "\r\n",
+	"imports": "",
+	"output_filename": "",
+	"name": "spec_Simple",
+	"diagramSourceFilePath": "../examples/specifications/spec_Simple.graphml"
+}

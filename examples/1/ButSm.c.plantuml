@@ -1,0 +1,62 @@
+@startuml
+
+skinparam state {
+ FontName<<class_ortho>>    Impact
+ BorderColor<<class_ortho>> #AA0000
+ BorderColor Black
+}
+
+note top of ROOT
+Full state path to current diagram being exported:
+ROOT
+end note
+
+state "ROOT" as ROOT {
+  state "ORTHO : BASIC" as BASIC<<class_ortho>> {
+    [*] --> NOT_PRESSED 
+    state "NOT_PRESSED" as NOT_PRESSED {
+      NOT_PRESSED  : ENTER / debounced_at_ms = current_time_ms + 100
+      NOT_PRESSED  : ENTER / time_held = 0
+    }
+    NOT_PRESSED --> INITIAL_PRESS  : [input == 1 && is_debounced( )]
+    state "PRESSED" as PRESSED {
+      state "INITIAL_PRESS" as INITIAL_PRESS {
+        INITIAL_PRESS  : ENTER / debounced_at_ms = current_time_ms + 100
+      }
+      INITIAL_PRESS --> HELD__PSEUDO_INIT  : [(time_in_state >= 500)]
+      INITIAL_PRESS --> NOT_PRESSED  : [input == 0 && is_debounced( )] / output_event(PRETAP)
+      state "HELD" as HELD {
+        [*] --> HELD__PSEUDO_INIT 
+        state "HELD__PSEUDO_INIT" as HELD__PSEUDO_INIT {
+        }
+        HELD__PSEUDO_INIT --> HELD_LONG  : [(time_in_state >= 500)]
+        state "HELD_LONG" as HELD_LONG {
+          HELD_LONG  : ENTER / output_event( HELD_LONG );
+          HELD_LONG  : ENTER / is_held_long = true;
+          HELD_LONG  : EXIT / is_held_long = false;
+        }
+        HELD  : ENTER / output_event( HELD );
+        HELD  : ENTER / is_held = true;
+        HELD  : DO / time_held = time_in_state
+        HELD  : EXIT / is_held = false;
+        HELD  : EXIT / time_held = 0;
+      }
+      PRESSED  : ENTER / output_event( PRESSED );
+      PRESSED  : ENTER / is_pressed = true;
+      PRESSED  : EXIT / output_event( RELEASED );
+      PRESSED  : EXIT / is_pressed = false;
+    }
+    PRESSED --> NOT_PRESSED  : [input == 0 && is_debounced( )]
+  }
+  state "ORTHO : REPEAT" as REPEAT<<class_ortho>> {
+    [*] --> NOT_HELD 
+    state "NOT_HELD" as NOT_HELD {
+    }
+    NOT_HELD --> BEING_HELD  : [is_held]
+    state "BEING_HELD" as BEING_HELD {
+    }
+    BEING_HELD --> NOT_HELD  : [is_not_pressed]
+    BEING_HELD --> BEING_HELD  : [(time_in_state >= repeat_delay )] / output_event( HELD_REPEAT )
+  }
+}
+@enduml

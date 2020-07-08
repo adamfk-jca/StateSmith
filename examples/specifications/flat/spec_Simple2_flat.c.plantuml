@@ -1,0 +1,63 @@
+@startuml
+
+skinparam state {
+ FontName<<class_ortho>>    Impact
+ BorderColor<<class_ortho>> #AA0000
+ BorderColor Black
+}
+
+note top of ROOT
+Full state path to current diagram being exported:
+ROOT
+end note
+
+state "ROOT" as ROOT {
+  state "S" as S {
+    state "S1" as S1 {
+      state "S11" as S11 {
+        S11  : ENTER / trace();
+        S11  : EXIT / trace();
+        S11  : DO / trace();
+        S11  : GO / trace();
+      }
+      S11 --> T111  : GO / trace();
+      S1  : ENTER / trace();
+      S1  : EXIT / trace();
+      S1  : DO / trace();
+      S1  : GO / trace();
+      S1  : GO / fail();
+    }
+    state "T1" as T1 {
+      state "T11" as T11 {
+        state "T111" as T111 {
+          T111  : DO[num < 0] / fail();
+          T111  : ENTER / trace();
+          T111  : EXIT / trace();
+          T111  : DO / trace();
+          T111  : GO / trace();
+        }
+        T111 --> T111  : DO[num == 0] / trace();
+        T111 --> T1  : DO[num > 0] / trace();
+        T11  : ENTER / trace();
+        T11  : EXIT / trace();
+        T11  : DO / trace();
+        T11  : GO / trace();
+        T11  : DO[num < 0] / fail();
+      }
+      T11 --> S11  : GO / fail();\ntrace_str("#3");
+      T1  : ENTER / trace();
+      T1  : EXIT / trace();
+      T1  : DO / trace();
+      T1  : GO / trace();
+      T1  : DO[num < 0] / fail();
+    }
+    T1 --> T111  : DO[num > 0] / trace();
+    T1 --> T1  : GO / fail();
+    S  : ENTER / trace();
+    S  : EXIT / trace();
+    S  : DO / trace();
+    S  : GO / trace();
+  }
+  ROOT  : [true] / sm->event_handled = true; //for loop efficiency
+}
+@enduml

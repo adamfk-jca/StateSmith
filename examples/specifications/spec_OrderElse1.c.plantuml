@@ -1,0 +1,38 @@
+@startuml
+
+skinparam state {
+ FontName<<class_ortho>>    Impact
+ BorderColor<<class_ortho>> #AA0000
+ BorderColor Black
+}
+
+note top of ROOT
+Full state path to current diagram being exported:
+ROOT
+end note
+
+state "ROOT" as ROOT {
+  [*] --> C__PSEUDO_INIT 
+  state "C" as C {
+    [*] --> C__PSEUDO_INIT 
+    state "C__PSEUDO_INIT" as C__PSEUDO_INIT {
+    }
+    C__PSEUDO_INIT --> C2  : [var1 == 1]
+    C__PSEUDO_INIT --> C1  : [var1 > var2]
+    C__PSEUDO_INIT --> C3  : ELSE
+    state "C1" as C1 {
+      C1  : ENTER[false] / out = 99;
+      C1  : ENTER[true] / out = 1;
+    }
+    state "C2" as C2 {
+      C2  : ENTER / out = 2;
+      C2  : EXIT / out = 2;
+    }
+    state "C3" as C3 {
+      C3  : ENTER / out = 3;
+    }
+    C  : GO_EVENT[true] / var1 = var1;
+  }
+  C --> C__PSEUDO_INIT  : GO_EVENT
+}
+@enduml

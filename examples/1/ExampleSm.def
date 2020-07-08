@@ -1,0 +1,98 @@
+
+prefix="ButSm"
+
+output_filename="ButSm"
+
+input_values
+==============================   
+  bool input;
+  uint16_t repeat_delay_ms;
+/==============================
+
+
+output_values
+==============================   
+  bool is_not_pressed : 1;
+  bool is_pressed     : 1;
+  bool is_held        : 1;
+  bool is_held_long   : 1;
+  uint32_t time_held;
+/==============================
+
+
+output_events
+==============================   
+  bool RELEASED    : 1;
+  bool PRESSED     : 1;
+  bool HELD        : 1;
+  bool HELD_LONG   : 1;
+  bool PRETAP      : 1;
+  bool HELD_REPEAT : 1;
+/==============================
+
+
+vars
+==============================   
+  uint32_t debounced_at_ms;
+/==============================
+
+ 
+expansions
+==============================   
+  input            ====>  sm->input_values.input
+  repeat_delay     ====>  sm->input_values.repeat_delay_ms
+  
+  is_pressed       ====>  sm->output_values.$$
+  is_held          ====>  sm->output_values.$$
+  is_held_long     ====>  sm->output_values.$$
+  is_not_pressed   ====>  sm->output_values.$$
+  time_held        ====>  sm->output_values.time_held
+  
+  current_time_ms  ====>  current_time
+  debounced_at_ms  ====>  sm->vars.debounced_at_ms
+  is_debounced( )  ====>  (current_time_ms >= debounced_at_ms)
+  output_event(x)  ====>  sm->output_events.{{x}} = true;
+  _ICSIO(x,y)      ====>  hsm__is_current_state_instance_of({{x}}, {{y}})
+  isCurrentStateOf(parent_state)  ====>  _ICSIO(hsm, $stateNameToEnumName( {{parent_state}} ) ) 
+/==============================
+
+
+execute_after_dispatch
+=======================
+  //~this section is expanded based on expansions above then run after every iteration
+  sm->output_values.is_not_pressed = !sm->output_values.is_pressed;
+/======================
+
+
+
+
+
+
+imports
+==================
+
+/==================
+
+
+h_file_top
+================
+//anything you want at top of .h file like additional includes
+/================
+
+c_file_top
+==================
+//anything you want at top of .c file like additional includes
+/==================
+
+
+c_functions
+==================
+//~this section is expanded based on expansions
+/=================
+
+
+c_prototypes
+==================
+
+/=================
+

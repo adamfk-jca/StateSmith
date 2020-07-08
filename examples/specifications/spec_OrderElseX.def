@@ -1,0 +1,64 @@
+
+
+input_values
+===============================
+
+/==============================
+
+
+output_values
+===============================
+  
+/==============================
+
+
+output_events
+===============================
+/==============================
+
+
+vars
+===============================
+  int var1;
+  int var2;
+  int out;
+/==============================
+
+ 
+expansions
+===============================
+  var1 ====> sm->vars.$$
+  var2 ====> sm->vars.$$
+  out  ====> sm->vars.$$
+/==============================
+
+
+execute_after_dispatch
+=======================
+
+/======================
+
+
+
+h_file_top
+================
+  //~anything you want at top of .h file like additional includes
+/================
+
+c_file_top
+==================
+//~anything you want at top of .c file like additional includes
+/==================
+
+
+c_functions
+==================
+//~this section is expanded based on expansions
+/=================
+
+
+c_prototypes
+==================
+
+/=================
+

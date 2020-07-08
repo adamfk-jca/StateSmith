@@ -1,0 +1,75 @@
+
+
+input_values
+===============================
+
+/==============================
+
+
+output_values
+===============================
+  
+/==============================
+
+
+output_events
+===============================
+/==============================
+
+
+vars
+===============================
+  bool dummy_var; //this is to avoid empty struct compile failure. TODO STATE-81
+/==============================
+
+ 
+expansions
+===============================
+  xS1    ====>   ${smStructName}_$$
+  xS11   ====>   ${smStructName}_$$
+  t1     ====>   ${smStructName}_$$
+  tToS1  ====>   ${smStructName}_$$
+  tToS11 ====>   ${smStructName}_$$
+  eT1    ====>   ${smStructName}_$$
+  eT11   ====>   ${smStructName}_$$
+  eT111  ====>   ${smStructName}_$$
+/==============================
+
+
+execute_after_dispatch
+=======================
+
+/======================
+
+
+
+h_file_top
+================
+  //~anything you want at top of .h file like additional includes
+  void ${smStructName}_xS1(void);
+  void ${smStructName}_xS11(void);
+  void ${smStructName}_tToS1(void);
+  void ${smStructName}_tToS11(void);
+  void ${smStructName}_t1(void);
+  void ${smStructName}_eT1(void);
+  void ${smStructName}_eT11(void);
+  void ${smStructName}_eT111(void);
+/================
+
+c_file_top
+==================
+//~anything you want at top of .c file like additional includes
+/==================
+
+
+c_functions
+==================
+//~this section is expanded based on expansions
+/=================
+
+
+c_prototypes
+==================
+
+/=================
+

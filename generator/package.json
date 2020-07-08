@@ -1,0 +1,27 @@
+{
+  "name": "statesmith-gen",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@types/cheerio": "0.22.10",
+    "@types/commander": "^2.12.2",
+    "@types/node": "^10.12.18",
+    "@types/nunjucks": "3.0.0",
+    "@types/xregexp": "3.0.29",
+    "cheerio": "0.22.0",
+    "commander": "^2.19.0",
+    "nunjucks": "3.0.0",
+    "xregexp": "3.0.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "mocha": "^5.2.0",
+    "typescript": "2.7.2"
+  }
+}

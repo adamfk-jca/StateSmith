@@ -1,0 +1,310 @@
+INPUT EVENTS:
+  DO
+  GO
+
+------------------------------------------
+
+this.hsm.inputHsm : 
+{
+	"states": [
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [],
+			"isInitialState": false,
+			"id": "n0",
+			"label": "ROOT",
+			"parentId": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"ANY+"
+					],
+					"guard": null,
+					"action": "trace();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0",
+			"parentId": "n0",
+			"label": "S",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"ANY+"
+					],
+					"guard": null,
+					"action": "trace();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"GO"
+					],
+					"guard": null,
+					"action": "fail();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n0",
+			"parentId": "n0::n0",
+			"label": "S1",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1,
+					"triggers": [
+						"ANY+"
+					],
+					"guard": null,
+					"action": "trace();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 2,
+					"triggers": [
+						"GO"
+					],
+					"guard": null,
+					"action": "trace();",
+					"nextInputStateId": "n0::n0::n1::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n0::n0",
+			"parentId": "n0::n0::n0",
+			"label": "S11",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": "trace_str(\"#3\");",
+					"nextInputStateId": "n0::n0::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n0::n0::n1",
+			"parentId": "n0::n0::n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"ANY+"
+					],
+					"guard": null,
+					"action": "trace();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"do"
+					],
+					"guard": "num < 0",
+					"action": "fail();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"GO"
+					],
+					"guard": null,
+					"action": "fail();",
+					"nextInputStateId": "n0::n0::n1",
+					"stopsPropagation": false
+				},
+				{
+					"order": 1,
+					"triggers": [
+						"do"
+					],
+					"guard": "num > 0",
+					"action": "trace();",
+					"nextInputStateId": "n0::n0::n1::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n1",
+			"parentId": "n0::n0",
+			"label": "T1",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [
+						"ANY+"
+					],
+					"guard": null,
+					"action": "trace();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"do"
+					],
+					"guard": "num < 0",
+					"action": "fail();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1000000,
+					"triggers": [
+						"GO"
+					],
+					"guard": null,
+					"action": "fail();",
+					"nextInputStateId": "n0::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n1::n0",
+			"parentId": "n0::n0::n1",
+			"label": "T11",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 2,
+					"triggers": [
+						"do"
+					],
+					"guard": "num < 0",
+					"action": "fail();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 3,
+					"triggers": [
+						"ANY+"
+					],
+					"guard": null,
+					"action": "trace();",
+					"nextInputStateId": null,
+					"stopsPropagation": false
+				},
+				{
+					"order": 1,
+					"triggers": [
+						"do"
+					],
+					"guard": "num == 0",
+					"action": "trace();",
+					"nextInputStateId": "n0::n0::n1::n0::n0",
+					"stopsPropagation": false
+				},
+				{
+					"order": 1,
+					"triggers": [
+						"do"
+					],
+					"guard": "num > 0",
+					"action": "trace();",
+					"nextInputStateId": "n0::n0::n1",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": false,
+			"id": "n0::n0::n1::n0::n0",
+			"parentId": "n0::n0::n1::n0",
+			"label": "T111",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": "trace_str(\"#2\");",
+					"nextInputStateId": "n0::n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n0::n2",
+			"parentId": "n0::n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		},
+		{
+			"groupIsCollapsed": false,
+			"eventHandlers": [
+				{
+					"order": 1000000,
+					"triggers": [],
+					"guard": "true",
+					"action": "trace_str(\"#1\");",
+					"nextInputStateId": "n0::n0",
+					"stopsPropagation": false
+				}
+			],
+			"isInitialState": true,
+			"id": "n0::n1",
+			"parentId": "n0",
+			"label": "PSEUDO_INIT",
+			"orthogonal_order": null
+		}
+	],
+	"varsStructInnerText": "\r\n  void* trace_object;\r\n  int num;\r\n",
+	"expansionDefinitions": "\r\n  num             =====>   sm->vars.$$\r\n  trace()         =====>   trace_str($handlerDescriptionStringNoAction$);\r\n  trace_str(str)  =====>   ${smStructName}_test_trace(sm->vars.trace_object, {{str}})\r\n  fail()          =====>   ${smStructName}_fail($handlerDescriptionStringNoAction$);\r\n",
+	"executeBeforeCode": "",
+	"executeAfterCode": "\r\n\r\n",
+	"c_file_top": "\r\n//~anything you want at top of .c file like additional includes\r\n",
+	"h_file_top": "\r\n//~anything you want at top of .h file like additional includes\r\nvoid ${smStructName}_test_trace(void* trace_object, const char* const description);\r\nvoid ${smStructName}_fail(const char* const description);\r\n",
+	"cFunctions": "\r\n//~this section is expanded based on expansions\r\n",
+	"cFunctionsNoExp": "",
+	"cPrototypes": "\r\n\r\n",
+	"cPrototypesNoExp": "",
+	"inputValues": "\r\n\r\n",
+	"outputValues": "\r\n  \r\n",
+	"outputEvents": "\r\n",
+	"imports": "",
+	"output_filename": "",
+	"name": "spec_Simple2",
+	"diagramSourceFilePath": "../examples/specifications/spec_Simple2.graphml"
+}

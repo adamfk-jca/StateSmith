@@ -1,0 +1,8 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+   "editor.lineHeight": 18,
+   "editor.fontFamily": "'Source Code Pro', 'Courier New', monospace",
+   "editor.tabSize": 2,
+   "editor.insertSpaces": true,
+   "editor.detectIndentation": false,
+}
